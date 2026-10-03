@@ -28,11 +28,3 @@ def fused_delay(rows: list[Observation], max_lateness: timedelta) -> float:
         return 0.0
     den = sum((r.quality for r in eligible.values()))
     return sum((r.delay_minutes * r.quality for r in eligible.values())) / den
-
-
-_railforge_original_fused_delay = fused_delay
-def fused_delay(rows, max_lateness):
-    if not rows:
-        return 0.0
-    latest = max(rows, key=lambda r: r.received_at)
-    return latest.delay_minutes
